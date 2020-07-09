@@ -9,11 +9,22 @@
 import SpriteKit
 import GameplayKit
 
+struct PhysicsCategory {
+    static let None: UInt32 = 0
+    static let Player: UInt32 = 0b1
+    static let Enemy: UInt32 = 0b10
+//    static let PlayerBody: UInt32 = 0b100
+    static let Barrier: UInt32 = 0b1000
+}
+
 class GameScene: SKScene {
     
     var scrollNode: SKNode!
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
     let scrollSpeed: CGFloat = 200
+    
+    var player: Player!
+    var barrier: SKSpriteNode!
     
     override func sceneDidLoad() {
         super.sceneDidLoad()
@@ -31,12 +42,30 @@ class GameScene: SKScene {
     }
     
     func setRefs() {
+        // player
+        if let player = self.childNode(withName: "player") as? Player {
+            self.player = player
+        } else {
+            print("u dont have a player :/ good luck playing now")
+        }
+        player.setup(scene: self)
+        
         // scroll node
         if let scrollNode = self.childNode(withName: "backgroundScroll") {
             self.scrollNode = scrollNode
         } else {
             print("scrollNode could not be connected properly. u done fucked up")
         }
+        
+        // barrier for removing obstacles
+        if let barrier = self.childNode(withName: "barrier") as? SKSpriteNode {
+            self.barrier = barrier
+        } else {
+            print("booo we hate ur barrier")
+        }
+        barrier.physicsBody?.categoryBitMask = PhysicsCategory.Barrier
+        barrier.physicsBody?.collisionBitMask = PhysicsCategory.None
+        barrier.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
     }
     
     func scrollWorld() {
@@ -54,7 +83,7 @@ class GameScene: SKScene {
             if groundPosition.y <= -ground.size.height / 2 {
 
                 /* Reposition ground sprite to the second starting position */
-                let newPosition = CGPoint(x: groundPosition.x, y: ground.size.height*2.5)
+                let newPosition = CGPoint(x: groundPosition.x, y: (ground.size.height*2.5 + groundPosition.y))
 
                 /* Convert new node position back to scroll layer space */
                 ground.position = self.convert(newPosition, to: scrollNode)
@@ -63,7 +92,12 @@ class GameScene: SKScene {
     }
     
     func touchDown(atPoint pos : CGPoint) {
-       
+        if pos.x < self.size.width/2 { // left
+            player.moveAnt(left: true)
+        }
+        else { // right
+            player.moveAnt(left: false)
+        }
     }
     
     func touchMoved(toPoint pos : CGPoint) {
@@ -71,7 +105,7 @@ class GameScene: SKScene {
     }
     
     func touchUp(atPoint pos : CGPoint) {
-        
+        player.removeAllActions()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
