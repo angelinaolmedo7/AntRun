@@ -53,11 +53,11 @@ class EnemySpawner: SKNode {
 //        initTimeSpace()
         spawnTimer += fixedDelta
 //        print(spawnTimer)
-        if spawnTimer > 3.0 { //Double(timeSpace!) {
+        if spawnTimer > 1.0 { //Double(timeSpace!) {
             print("BEETLE TIME")
             self.addChild(Beetle(scene: scene))
             spawnTimer = 0
         }
-        print(self.children)
+        print(self.children.count)
     }
 }

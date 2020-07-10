@@ -26,7 +26,7 @@ class GameScene: SKScene {
     
     var scrollNode: SKNode!
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
-    let scrollSpeed: CGFloat = 200
+    let scrollSpeed: CGFloat = 600
     
     var player: Player!
     
@@ -136,7 +136,7 @@ class GameScene: SKScene {
 
             /* Check if ground sprite has left the scene */
             if enemyPosition.y <= -enemy.size.height / 2 {
-                print("Delete enemy here")
+                enemy.removeFromParent()
             }
         }
     }
