@@ -63,17 +63,41 @@
 			isa = PBXGroup;
 			children = (
 				2989F7CF24B40BF900279F04 /* AppDelegate.swift */,
-				2989F7D124B40BF900279F04 /* GameScene.sks */,
-				2989F82524B7D2F600279F04 /* Player.swift */,
 				2989F7D324B40BF900279F04 /* Actions.sks */,
-				2989F7D524B40BF900279F04 /* GameScene.swift */,
-				2989F7D724B40BF900279F04 /* GameViewController.swift */,
-				2989F7D924B40BF900279F04 /* Main.storyboard */,
+				2989F82724B7D9F200279F04 /* Model */,
+				2989F82924B7DA4100279F04 /* View */,
+				2989F82824B7D9FE00279F04 /* Controller */,
 				2989F7DC24B40BFC00279F04 /* Assets.xcassets */,
-				2989F7DE24B40BFC00279F04 /* LaunchScreen.storyboard */,
 				2989F7E124B40BFC00279F04 /* Info.plist */,
 			);
 			path = AntRun;
+			sourceTree = "<group>";
+		};
+		2989F82724B7D9F200279F04 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2989F82524B7D2F600279F04 /* Player.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2989F82824B7D9FE00279F04 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2989F7D724B40BF900279F04 /* GameViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2989F82924B7DA4100279F04 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2989F7D524B40BF900279F04 /* GameScene.swift */,
+				2989F7D124B40BF900279F04 /* GameScene.sks */,
+				2989F7D924B40BF900279F04 /* Main.storyboard */,
+				2989F7DE24B40BFC00279F04 /* LaunchScreen.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

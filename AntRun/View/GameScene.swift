@@ -24,6 +24,7 @@ class GameScene: SKScene {
     let scrollSpeed: CGFloat = 200
     
     var player: Player!
+    var enemySpawner: SKNode!
     var barrier: SKSpriteNode!
     
     override func sceneDidLoad() {
@@ -55,6 +56,13 @@ class GameScene: SKScene {
             self.scrollNode = scrollNode
         } else {
             print("scrollNode could not be connected properly. u done fucked up")
+        }
+        
+        // enemy spawner
+        if let enemySpawner = self.childNode(withName: "enemySpawner") {
+            self.enemySpawner = enemySpawner
+        } else {
+            print("enemy machine broke")
         }
         
         // barrier for removing obstacles
