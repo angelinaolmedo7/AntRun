@@ -18,6 +18,11 @@ class Beetle: SKSpriteNode {
         super.init(texture: texture, color: color, size: size)
         self.zPosition = 2
         self.name = "beetle"
+        
+        self.physicsBody = SKPhysicsBody(rectangleOf: size)
+        self.physicsBody?.affectedByGravity = false
+        self.physicsBody?.isDynamic = false
+        self.physicsBody?.allowsRotation = false
     }
     
     convenience init(scene: SKScene) {
