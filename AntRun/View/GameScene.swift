@@ -17,6 +17,11 @@ struct PhysicsCategory {
     static let Barrier: UInt32 = 0b1000
 }
 
+enum GameState: Equatable {
+    case Active
+    case Menu
+}
+
 class GameScene: SKScene {
     
     var scrollNode: SKNode!
@@ -24,13 +29,38 @@ class GameScene: SKScene {
     let scrollSpeed: CGFloat = 200
     
     var player: Player!
-    var enemySpawner: SKNode!
+    
+    var enemySpawner: EnemySpawner!
+    var enemyTimer: Timer!
     var barrier: SKSpriteNode!
+    
+    var gameState: GameState = .Menu {
+        didSet{
+            switch gameState {
+            case .Active:
+                player.removeAllActions()
+                self.player.zRotation = 0
+                self.player.position.x = self.player.initialPos.x
+                self.enemyTimer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
+            case .Menu:
+                self.enemyTimer.invalidate()
+
+                for node in enemySpawner.children {
+                    node.removeFromParent()
+                }
+            }
+        }
+    }
+    
+    @objc func startGenerator(){
+        self.enemySpawner.generate(scene: self.scene!)
+    }
     
     override func sceneDidLoad() {
         super.sceneDidLoad()
         
         setRefs()
+        self.gameState = .Active
 
     }
     
@@ -59,7 +89,7 @@ class GameScene: SKScene {
         }
         
         // enemy spawner
-        if let enemySpawner = self.childNode(withName: "enemySpawner") {
+        if let enemySpawner = self.childNode(withName: "enemySpawner") as? EnemySpawner {
             self.enemySpawner = enemySpawner
         } else {
             print("enemy machine broke")
@@ -83,7 +113,6 @@ class GameScene: SKScene {
 
         /* Loop through scroll layer nodes */
         for ground in scrollNode.children as! [SKSpriteNode] {
-
             /* Get ground node position, convert node position to scene space */
             let groundPosition = scrollNode.convert(ground.position, to: self)
 
@@ -95,6 +124,19 @@ class GameScene: SKScene {
 
                 /* Convert new node position back to scroll layer space */
                 ground.position = self.convert(newPosition, to: scrollNode)
+            }
+        }
+        
+        /* Loop through enemy layer nodes */
+        for enemy in enemySpawner.children as! [SKSpriteNode] {
+            enemy.position.y -= scrollSpeed * CGFloat(fixedDelta)
+            
+            /* Get enemy node position, convert node position to scene space */
+            let enemyPosition = enemySpawner.convert(enemy.position, to: self)
+
+            /* Check if ground sprite has left the scene */
+            if enemyPosition.y <= -enemy.size.height / 2 {
+                print("Delete enemy here")
             }
         }
     }

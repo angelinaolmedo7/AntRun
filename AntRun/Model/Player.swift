@@ -13,13 +13,15 @@ class Player: SKSpriteNode {
     
     var vel: Double = 200
     var sceneWidth: CGFloat = 0 // this should be set in setup()
+    var initialPos: CGPoint! // this should be set in setup()
     
     func setup(scene: SKScene){
         self.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.physicsBody?.collisionBitMask = PhysicsCategory.Enemy
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
         
-        self.position = CGPoint(x: scene.frame.width/2, y: 300)
+        self.initialPos = CGPoint(x: scene.frame.width/2, y: 300)
+        self.position = self.initialPos
         self.sceneWidth = scene.frame.width
     }
     
