@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2978E18C24BB2B1900BD3DB0 /* FoodSpawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2978E18B24BB2B1900BD3DB0 /* FoodSpawner.swift */; };
+		2978E18E24BB2B5E00BD3DB0 /* Apple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2978E18D24BB2B5E00BD3DB0 /* Apple.swift */; };
 		2989F7D024B40BF900279F04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2989F7CF24B40BF900279F04 /* AppDelegate.swift */; };
 		2989F7D224B40BF900279F04 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2989F7D124B40BF900279F04 /* GameScene.sks */; };
 		2989F7D424B40BF900279F04 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2989F7D324B40BF900279F04 /* Actions.sks */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2978E18B24BB2B1900BD3DB0 /* FoodSpawner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSpawner.swift; sourceTree = "<group>"; };
+		2978E18D24BB2B5E00BD3DB0 /* Apple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apple.swift; sourceTree = "<group>"; };
 		2989F7CC24B40BF900279F04 /* AntRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2989F7CF24B40BF900279F04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2989F7D124B40BF900279F04 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				2989F82524B7D2F600279F04 /* Player.swift */,
 				2989F82A24B7F8CB00279F04 /* EnemySpawner.swift */,
 				2989F82C24B7FA9900279F04 /* Beetle.swift */,
+				2978E18B24BB2B1900BD3DB0 /* FoodSpawner.swift */,
+				2978E18D24BB2B5E00BD3DB0 /* Apple.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -179,12 +185,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2978E18E24BB2B5E00BD3DB0 /* Apple.swift in Sources */,
 				2989F82624B7D2F600279F04 /* Player.swift in Sources */,
 				2989F7D624B40BF900279F04 /* GameScene.swift in Sources */,
 				2989F82B24B7F8CB00279F04 /* EnemySpawner.swift in Sources */,
 				2989F7D824B40BF900279F04 /* GameViewController.swift in Sources */,
 				2989F82D24B7FA9900279F04 /* Beetle.swift in Sources */,
 				2989F7D024B40BF900279F04 /* AppDelegate.swift in Sources */,
+				2978E18C24BB2B1900BD3DB0 /* FoodSpawner.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

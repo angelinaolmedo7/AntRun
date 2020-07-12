@@ -1,15 +1,15 @@
 //
-//  EnemySpawner.swift
+//  FoodSpawner.swift
 //  AntRun
 //
-//  Created by Angelina Olmedo on 7/9/20.
+//  Created by Angelina Olmedo on 7/12/20.
 //  Copyright © 2020 Angelina Olmedo. All rights reserved.
 //
 
 import Foundation
 import SpriteKit
 
-class EnemySpawner: SKNode {
+class FoodSpawner: SKNode {
     
     var spawnTimer: CFTimeInterval = 0
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
@@ -51,9 +51,9 @@ class EnemySpawner: SKNode {
     
     func generate(scene: SKScene) {
         spawnTimer += fixedDelta
-        if spawnTimer > 1.0 { //Double(timeSpace!) {
-            print("BEETLE TIME")
-            self.addChild(Beetle(scene: scene))
+        if spawnTimer > 2.0 { //Double(timeSpace!) {
+            print("APPLE TIME")
+            self.addChild(Apple(scene: scene))
             spawnTimer = 0
         }
     }

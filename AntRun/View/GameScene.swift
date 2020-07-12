@@ -13,7 +13,7 @@ struct PhysicsCategory {
     static let None: UInt32 = 0
     static let Player: UInt32 = 0b1
     static let Enemy: UInt32 = 0b10
-//    static let PlayerBody: UInt32 = 0b100
+    static let Food: UInt32 = 0b100
     static let Barrier: UInt32 = 0b1000
 }
 
@@ -31,6 +31,7 @@ class GameScene: SKScene {
     var player: Player!
     
     var enemySpawner: EnemySpawner!
+    var foodSpawner: FoodSpawner!
     var enemyTimer: Timer!
     var barrier: SKSpriteNode!
     
@@ -54,6 +55,7 @@ class GameScene: SKScene {
     
     @objc func startGenerator(){
         self.enemySpawner.generate(scene: self.scene!)
+        self.foodSpawner.generate(scene: self.scene!)
     }
     
     override func sceneDidLoad() {
@@ -93,6 +95,13 @@ class GameScene: SKScene {
             self.enemySpawner = enemySpawner
         } else {
             print("enemy machine broke")
+        }
+        
+        // food spawner
+        if let foodSpawner = self.childNode(withName: "foodSpawner") as? FoodSpawner {
+            self.foodSpawner = foodSpawner
+        } else {
+            print("food machine broke")
         }
         
         // barrier for removing obstacles
@@ -137,6 +146,19 @@ class GameScene: SKScene {
             /* Check if ground sprite has left the scene */
             if enemyPosition.y <= -enemy.size.height / 2 {
                 enemy.removeFromParent()
+            }
+        }
+        
+        /* Loop through food layer nodes */
+        for food in foodSpawner.children as! [SKSpriteNode] {
+            food.position.y -= scrollSpeed * CGFloat(fixedDelta)
+            
+            /* Get enemy node position, convert node position to scene space */
+            let foodPosition = foodSpawner.convert(food.position, to: self)
+
+            /* Check if ground sprite has left the scene */
+            if foodPosition.y <= -food.size.height / 2 {
+                food.removeFromParent()
             }
         }
     }
