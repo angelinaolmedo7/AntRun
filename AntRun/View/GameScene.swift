@@ -60,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func sceneDidLoad() {
         super.sceneDidLoad()
-        physicsWorld.contactDelegate = self
+        physicsWorld.contactDelegate = self  // i ALWAYS forget this
         
         setRefs()
         self.gameState = .Active
@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let scrollNode = self.childNode(withName: "backgroundScroll") {
             self.scrollNode = scrollNode
         } else {
-            print("scrollNode could not be connected properly. u done fucked up")
+            print("scrollNode could not be connected properly. u done fwicked up")
         }
         
         // enemy spawner
