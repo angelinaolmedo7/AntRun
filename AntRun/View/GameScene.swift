@@ -22,7 +22,7 @@ enum GameState: Equatable {
     case Menu
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var scrollNode: SKNode!
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
@@ -60,6 +60,7 @@ class GameScene: SKScene {
     
     override func sceneDidLoad() {
         super.sceneDidLoad()
+        physicsWorld.contactDelegate = self
         
         setRefs()
         self.gameState = .Active
@@ -196,4 +197,22 @@ class GameScene: SKScene {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        print("CONTACT")
+        let bodyA = contact.bodyA
+        let bodyB = contact.bodyB
+        // check the categoryBitMasks to make sure we are removing the correct node.
+        if bodyA.categoryBitMask == PhysicsCategory.Player {
+            if bodyB.categoryBitMask == PhysicsCategory.Food {
+                bodyB.node?.removeFromParent()
+                print("APPLE")
+            }
+        }
+        if bodyB.categoryBitMask == PhysicsCategory.Player {
+            if bodyA.categoryBitMask == PhysicsCategory.Food {
+                bodyA.node?.removeFromParent()
+                print("APPLE")
+            }
+        }
+    }
 }

@@ -17,8 +17,8 @@ class Player: SKSpriteNode {
     
     func setup(scene: SKScene){
         self.physicsBody?.categoryBitMask = PhysicsCategory.Player
-        self.physicsBody?.collisionBitMask = PhysicsCategory.Enemy
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
+        self.physicsBody?.collisionBitMask = PhysicsCategory.Enemy | PhysicsCategory.Food
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy | PhysicsCategory.Food
         
         self.initialPos = CGPoint(x: scene.frame.width/2, y: 300)
         self.position = self.initialPos

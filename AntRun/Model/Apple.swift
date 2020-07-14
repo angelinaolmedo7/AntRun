@@ -21,8 +21,12 @@ class Apple: SKSpriteNode {
         
         self.physicsBody = SKPhysicsBody(rectangleOf: size)
         self.physicsBody?.affectedByGravity = false
-        self.physicsBody?.isDynamic = false
+        self.physicsBody?.isDynamic = true
         self.physicsBody?.allowsRotation = false
+        
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Food
+        self.physicsBody?.collisionBitMask = PhysicsCategory.Player
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Player
     }
     
     convenience init(scene: SKScene) {
