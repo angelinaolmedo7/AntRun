@@ -24,6 +24,9 @@ enum GameState: Equatable {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var score: Int! = 0
+    var scoreLabel: SKLabelNode! = SKLabelNode(text: "0")
+    
     var scrollNode: SKNode!
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
     let scrollSpeed: CGFloat = 600
@@ -40,13 +43,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             switch gameState {
             case .Active:
                 player.removeAllActions()
+                self.score = 0
                 self.player.zRotation = 0
                 self.player.position.x = self.player.initialPos.x
+                
+                self.player.isHidden = false
+                self.scoreLabel.isHidden = false
+                
                 self.enemyTimer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
             case .Menu:
                 self.enemyTimer.invalidate()
+                
+                // clean up scene
+                self.player.isHidden = true
+                self.scoreLabel.isHidden = true
 
                 for node in enemySpawner.children {
+                    node.removeFromParent()
+                }
+                for node in foodSpawner.children {
                     node.removeFromParent()
                 }
             }
@@ -105,6 +120,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("food machine broke")
         }
         
+        // score label
+        scoreLabel.fontName = "HelveticaNeue-Bold"
+        scoreLabel.position = CGPoint(x: self.size.width/2, y: self.size.height - 150)
+        scoreLabel.zPosition = 10
+        scoreLabel.fontSize = 100
+        scoreLabel.fontColor = .black
+        self.addChild(scoreLabel)
+        
         // barrier for removing obstacles
         if let barrier = self.childNode(withName: "barrier") as? SKSpriteNode {
             self.barrier = barrier
@@ -117,6 +140,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func scrollWorld() {
+        
+        // don't scroll if menu is active
+        if self.gameState == .Menu {
+            return
+        }
         
         /* Scroll World */
         scrollNode.position.y -= scrollSpeed * CGFloat(fixedDelta)
@@ -198,21 +226,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        print("CONTACT")
         let bodyA = contact.bodyA
         let bodyB = contact.bodyB
-        // check the categoryBitMasks to make sure we are removing the correct node.
-        if bodyA.categoryBitMask == PhysicsCategory.Player {
-            if bodyB.categoryBitMask == PhysicsCategory.Food {
-                bodyB.node?.removeFromParent()
-                print("APPLE")
-            }
-        }
-        if bodyB.categoryBitMask == PhysicsCategory.Player {
+        
+        // food contact (add points)
+        if (bodyA.categoryBitMask == PhysicsCategory.Player && bodyB.categoryBitMask == PhysicsCategory.Food) || (bodyA.categoryBitMask == PhysicsCategory.Food && bodyB.categoryBitMask == PhysicsCategory.Player) {
+            // remove food
             if bodyA.categoryBitMask == PhysicsCategory.Food {
                 bodyA.node?.removeFromParent()
-                print("APPLE")
-            }
+            } else {bodyB.node?.removeFromParent()}
+            score += 1
+            scoreLabel.text = "\(score!)"
         }
+        
+        // enemy contact (lose game)
+        if (bodyA.categoryBitMask == PhysicsCategory.Player && bodyB.categoryBitMask == PhysicsCategory.Enemy) || (bodyA.categoryBitMask == PhysicsCategory.Enemy && bodyB.categoryBitMask == PhysicsCategory.Player) {
+            endGame()
+        }
+    }
+    
+    func endGame() {
+        // end game, send to menu, save score if it is high score
+
+        print("DEAD")
+        self.gameState = .Menu
     }
 }

@@ -10,10 +10,12 @@ import Foundation
 import SpriteKit
 
 class Apple: SKSpriteNode {
+    let pointValue: Int
     init() {
         let texture = SKTexture(imageNamed: "applesprite.png")
         let size = CGSize(width: texture.size().width/5, height: texture.size().height/5) // texture.size()
         let color = UIColor.clear
+        self.pointValue  = 1
         
         super.init(texture: texture, color: color, size: size)
         self.zPosition = 2

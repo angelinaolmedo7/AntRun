@@ -23,6 +23,10 @@ class Beetle: SKSpriteNode {
         self.physicsBody?.affectedByGravity = false
         self.physicsBody?.isDynamic = false
         self.physicsBody?.allowsRotation = false
+        
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
+        self.physicsBody?.collisionBitMask = PhysicsCategory.Player
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Player
     }
     
     convenience init(scene: SKScene) {
