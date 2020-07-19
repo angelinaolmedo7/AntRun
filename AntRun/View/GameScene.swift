@@ -52,7 +52,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.scoreLabel.text = "\(score!)"
                 self.player.zRotation = 0
                 self.player.position.x = self.player.initialPos.x
+                
+                // shouldn't start with powerup
                 self.playerHasPowerup = false
+                self.player.lifeParticles.isHidden = true // since you can't die with an extra life, this should be redundant
                 
                 self.player.isHidden = false
                 self.scoreLabel.isHidden = false
@@ -268,6 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 bodyA.node?.removeFromParent()
             } else {bodyB.node?.removeFromParent()}
             playerHasPowerup = true
+            player.lifeParticles.isHidden = false
         }
         
         // enemy contact (lose game or lose extra life)
@@ -276,6 +280,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if playerHasPowerup {
                 // remove powerup
                 playerHasPowerup = false
+                player.lifeParticles.isHidden = true
                 // remove enemy node
                 if bodyA.categoryBitMask == PhysicsCategory.Enemy {
                     bodyA.node?.removeFromParent()
