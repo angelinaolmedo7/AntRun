@@ -52,8 +52,16 @@ class EnemySpawner: SKNode {
     func generate(scene: SKScene) {
         spawnTimer += fixedDelta
         if spawnTimer > 1.0 { //Double(timeSpace!) {
-            print("BEETLE TIME")
-            self.addChild(Beetle(scene: scene))
+            let randEnemy = Int.random(in: 0...3)
+            switch randEnemy {
+            case 3:
+                self.addChild(Wasp(scene: scene))
+                print("WASP TIME")
+            default:
+                self.addChild(Wasp(scene: scene))
+                print("BEETLE TIME")
+            }
+            
             spawnTimer = 0
         }
     }

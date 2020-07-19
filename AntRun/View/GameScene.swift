@@ -24,8 +24,12 @@ enum GameState: Equatable {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let defaults = UserDefaults.standard
+    
     var score: Int! = 0
     var scoreLabel: SKLabelNode! = SKLabelNode(text: "0")
+    
+    var menuLabel: SKLabelNode! = SKLabelNode(text: "menu")
     
     var scrollNode: SKNode!
     let fixedDelta: CFTimeInterval = 1.0 / 60.0 /* 60 FPS */
@@ -44,15 +48,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case .Active:
                 player.removeAllActions()
                 self.score = 0
+                self.scoreLabel.text = "\(score!)"
                 self.player.zRotation = 0
                 self.player.position.x = self.player.initialPos.x
                 
                 self.player.isHidden = false
                 self.scoreLabel.isHidden = false
+                self.menuLabel.isHidden = true
                 
                 self.enemyTimer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
             case .Menu:
                 self.enemyTimer.invalidate()
+                
+                
+                var highscore = defaults.integer(forKey: "highscore")
+                if self.score > highscore {
+                    highscore = self.score
+                    defaults.set(highscore, forKey: "highscore")
+                }
+                
+                self.menuLabel.text = "Score: \(self.score ?? 0)\nHigh Score: \(highscore)\n\n\nTap anywhere\nto play again"
+                self.menuLabel.isHidden = false
                 
                 // clean up scene
                 self.player.isHidden = true
@@ -128,6 +144,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.fontColor = .black
         self.addChild(scoreLabel)
         
+        // menu label
+        menuLabel.fontName = "HelveticaNeue-Bold"
+        menuLabel.position = CGPoint(x: self.size.width/2, y: self.size.height - 450)
+        menuLabel.zPosition = 10
+        menuLabel.fontSize = 70
+        menuLabel.fontColor = .black
+        menuLabel.verticalAlignmentMode = .center
+        menuLabel.numberOfLines = 0
+        self.addChild(menuLabel)
+        
         // barrier for removing obstacles
         if let barrier = self.childNode(withName: "barrier") as? SKSpriteNode {
             self.barrier = barrier
@@ -193,6 +219,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func touchDown(atPoint pos : CGPoint) {
+        
+        if gameState == .Menu {
+            gameState = .Active
+        }
+        
         if pos.x < self.size.width/2 { // left
             player.moveAnt(left: true)
         }
@@ -246,7 +277,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func endGame() {
-        // end game, send to menu, save score if it is high score
+        // end game, send to menu
 
         print("DEAD")
         self.gameState = .Menu
