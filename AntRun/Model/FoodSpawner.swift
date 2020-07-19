@@ -52,8 +52,16 @@ class FoodSpawner: SKNode {
     func generate(scene: SKScene) {
         spawnTimer += fixedDelta
         if spawnTimer > 2.0 { //Double(timeSpace!) {
-            print("APPLE TIME")
-            self.addChild(Apple(scene: scene))
+            let randEnemy = Int.random(in: 0...3)
+            switch randEnemy {
+            case 3:
+                self.addChild(ExtraLifeNode(scene: scene))
+                print("Extra Life Spawned")
+            default:
+                self.addChild(Apple(scene: scene))
+                print("APPLE TIME")
+            }
+            
             spawnTimer = 0
         }
     }

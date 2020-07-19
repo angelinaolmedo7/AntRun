@@ -26,7 +26,7 @@ class ExtraLifeNode: SKSpriteNode {
         self.physicsBody?.isDynamic = false
         self.physicsBody?.allowsRotation = true
         
-        self.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Powerup
         self.physicsBody?.collisionBitMask = PhysicsCategory.Player
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Player
     }

@@ -14,7 +14,7 @@ struct PhysicsCategory {
     static let Player: UInt32 = 0b1
     static let Enemy: UInt32 = 0b10
     static let Food: UInt32 = 0b100
-    static let Barrier: UInt32 = 0b1000
+    static let Powerup: UInt32 = 0b1000
 }
 
 enum GameState: Equatable {
@@ -36,6 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let scrollSpeed: CGFloat = 600
     
     var player: Player!
+    var playerHasPowerup: Bool = false // only powerup is extra life
     
     var enemySpawner: EnemySpawner!
     var foodSpawner: FoodSpawner!
@@ -51,6 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.scoreLabel.text = "\(score!)"
                 self.player.zRotation = 0
                 self.player.position.x = self.player.initialPos.x
+                self.playerHasPowerup = false
                 
                 self.player.isHidden = false
                 self.scoreLabel.isHidden = false
@@ -59,7 +61,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.enemyTimer = Timer.scheduledTimer(timeInterval: self.fixedDelta, target: self, selector: #selector(self.startGenerator), userInfo: nil, repeats: true)
             case .Menu:
                 self.enemyTimer.invalidate()
-                
                 
                 var highscore = defaults.integer(forKey: "highscore")
                 if self.score > highscore {
@@ -153,16 +154,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         menuLabel.verticalAlignmentMode = .center
         menuLabel.numberOfLines = 0
         self.addChild(menuLabel)
-        
-        // barrier for removing obstacles
-        if let barrier = self.childNode(withName: "barrier") as? SKSpriteNode {
-            self.barrier = barrier
-        } else {
-            print("booo we hate ur barrier")
-        }
-        barrier.physicsBody?.categoryBitMask = PhysicsCategory.Barrier
-        barrier.physicsBody?.collisionBitMask = PhysicsCategory.None
-        barrier.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
     }
     
     func scrollWorld() {
@@ -270,9 +261,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scoreLabel.text = "\(score!)"
         }
         
-        // enemy contact (lose game)
+        // powerup contact (add extra life)
+        if (bodyA.categoryBitMask == PhysicsCategory.Player && bodyB.categoryBitMask == PhysicsCategory.Powerup) || (bodyA.categoryBitMask == PhysicsCategory.Powerup && bodyB.categoryBitMask == PhysicsCategory.Player) {
+            // remove powerup from screen
+            if bodyA.categoryBitMask == PhysicsCategory.Powerup {
+                bodyA.node?.removeFromParent()
+            } else {bodyB.node?.removeFromParent()}
+            playerHasPowerup = true
+        }
+        
+        // enemy contact (lose game or lose extra life)
         if (bodyA.categoryBitMask == PhysicsCategory.Player && bodyB.categoryBitMask == PhysicsCategory.Enemy) || (bodyA.categoryBitMask == PhysicsCategory.Enemy && bodyB.categoryBitMask == PhysicsCategory.Player) {
-            endGame()
+            // if player has powerup they don't lose the game
+            if playerHasPowerup {
+                // remove powerup
+                playerHasPowerup = false
+                // remove enemy node
+                if bodyA.categoryBitMask == PhysicsCategory.Enemy {
+                    bodyA.node?.removeFromParent()
+                } else {bodyB.node?.removeFromParent()}
+            }
+            else {endGame()}
         }
     }
     

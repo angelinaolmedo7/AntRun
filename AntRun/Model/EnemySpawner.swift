@@ -58,7 +58,7 @@ class EnemySpawner: SKNode {
                 self.addChild(Wasp(scene: scene))
                 print("WASP TIME")
             default:
-                self.addChild(ExtraLifeNode(scene: scene))
+                self.addChild(Beetle(scene: scene))
                 print("BEETLE TIME")
             }
             
