@@ -10,8 +10,14 @@ import Foundation
 import SpriteKit
 
 class ExtraLifeNode: SKSpriteNode {
+        
     init() {
-        super.init(texture: nil, color: UIColor.clear, size: CGSize(width: 0, height: 0))
+        super.init(texture: nil, color: UIColor.clear, size: CGSize(width: 50, height: 50))
+        
+        let lifeParticles = SKEmitterNode(fileNamed: "ExtraLife.sks")!
+        lifeParticles.position = CGPoint(x: 0, y: 0)
+        self.addChild(lifeParticles)
+        
         self.zPosition = 3
         self.name = "extralife"
         
@@ -26,8 +32,18 @@ class ExtraLifeNode: SKSpriteNode {
     }
     
     
+    convenience init(scene: SKScene) {
+        self.init()
+        self.setRandomStartingPos(scene: scene)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setRandomStartingPos(scene: SKScene) {
+        let xValue = CGFloat(Int.random(in: 0 ... Int(scene.size.width)))
+        let yValue = scene.size.height + CGFloat(Int.random(in: 100...700))
+        self.position = CGPoint(x: xValue, y: yValue)
+    }
 }
