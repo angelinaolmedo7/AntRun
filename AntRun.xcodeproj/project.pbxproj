@@ -20,6 +20,9 @@
 		2989F82624B7D2F600279F04 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2989F82524B7D2F600279F04 /* Player.swift */; };
 		2989F82B24B7F8CB00279F04 /* EnemySpawner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2989F82A24B7F8CB00279F04 /* EnemySpawner.swift */; };
 		2989F82D24B7FA9900279F04 /* Beetle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2989F82C24B7FA9900279F04 /* Beetle.swift */; };
+		29F34A4924C41BAA003641AA /* ExtraLife.sks in Resources */ = {isa = PBXBuildFile; fileRef = 29F34A4724C41BA9003641AA /* ExtraLife.sks */; };
+		29F34A4A24C41BAA003641AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29F34A4824C41BA9003641AA /* Assets.xcassets */; };
+		29F34A4C24C41CB1003641AA /* ExtraLifeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F34A4B24C41CB1003641AA /* ExtraLifeNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		2989F82524B7D2F600279F04 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		2989F82A24B7F8CB00279F04 /* EnemySpawner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemySpawner.swift; sourceTree = "<group>"; };
 		2989F82C24B7FA9900279F04 /* Beetle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beetle.swift; sourceTree = "<group>"; };
+		29F34A4724C41BA9003641AA /* ExtraLife.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ExtraLife.sks; sourceTree = "<group>"; };
+		29F34A4824C41BA9003641AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		29F34A4B24C41CB1003641AA /* ExtraLifeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraLifeNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +90,10 @@
 		2989F82724B7D9F200279F04 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				29F34A4824C41BA9003641AA /* Assets.xcassets */,
 				2989F82524B7D2F600279F04 /* Player.swift */,
+				29F34A4B24C41CB1003641AA /* ExtraLifeNode.swift */,
+				29F34A4724C41BA9003641AA /* ExtraLife.sks */,
 				2989F82A24B7F8CB00279F04 /* EnemySpawner.swift */,
 				2989F82C24B7FA9900279F04 /* Beetle.swift */,
 				2978E18B24BB2B1900BD3DB0 /* FoodSpawner.swift */,
@@ -174,6 +183,8 @@
 				2978E19224BE727800BD3DB0 /* Main.storyboard in Resources */,
 				2989F7DD24B40BFC00279F04 /* Assets.xcassets in Resources */,
 				2989F7E024B40BFC00279F04 /* LaunchScreen.storyboard in Resources */,
+				29F34A4A24C41BAA003641AA /* Assets.xcassets in Resources */,
+				29F34A4924C41BAA003641AA /* ExtraLife.sks in Resources */,
 				2989F7D424B40BF900279F04 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,6 +198,7 @@
 			files = (
 				2978E18E24BB2B5E00BD3DB0 /* Apple.swift in Sources */,
 				2989F82624B7D2F600279F04 /* Player.swift in Sources */,
+				29F34A4C24C41CB1003641AA /* ExtraLifeNode.swift in Sources */,
 				2989F7D624B40BF900279F04 /* GameScene.swift in Sources */,
 				2989F82B24B7F8CB00279F04 /* EnemySpawner.swift in Sources */,
 				2989F7D824B40BF900279F04 /* GameViewController.swift in Sources */,
