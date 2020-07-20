@@ -11,6 +11,8 @@ import SpriteKit
 
 class Apple: SKSpriteNode {
     let pointValue: Int
+    var appleGlow = SKEmitterNode(fileNamed: "AppleGlow.sks")!
+    
     init() {
         let texture = SKTexture(imageNamed: "applesprite.png")
         let size = CGSize(width: texture.size().width/5, height: texture.size().height/5) // texture.size()
@@ -20,6 +22,10 @@ class Apple: SKSpriteNode {
         super.init(texture: texture, color: color, size: size)
         self.zPosition = 2
         self.name = "apple"
+        
+        appleGlow.position = CGPoint(x: 0, y: 0)
+        appleGlow.zPosition = -1
+        self.addChild(appleGlow)
         
         self.physicsBody = SKPhysicsBody(rectangleOf: size)
         self.physicsBody?.affectedByGravity = false
