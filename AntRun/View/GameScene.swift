@@ -161,13 +161,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func scrollWorld() {
         
+        // makes the game go faster the higher your score
+        let activeScrollSpeed = scrollSpeed + CGFloat(score * 10)
+        
         // don't scroll if menu is active
         if self.gameState == .Menu {
             return
         }
         
         /* Scroll World */
-        scrollNode.position.y -= scrollSpeed * CGFloat(fixedDelta)
+        scrollNode.position.y -= activeScrollSpeed * CGFloat(fixedDelta)
 
         /* Loop through scroll layer nodes */
         for ground in scrollNode.children as! [SKSpriteNode] {
@@ -187,7 +190,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         /* Loop through enemy layer nodes */
         for enemy in enemySpawner.children as! [SKSpriteNode] {
-            enemy.position.y -= scrollSpeed * CGFloat(fixedDelta)
+            enemy.position.y -= activeScrollSpeed * CGFloat(fixedDelta)
             
             /* Get enemy node position, convert node position to scene space */
             let enemyPosition = enemySpawner.convert(enemy.position, to: self)
@@ -200,7 +203,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         /* Loop through food layer nodes */
         for food in foodSpawner.children as! [SKSpriteNode] {
-            food.position.y -= scrollSpeed * CGFloat(fixedDelta)
+            food.position.y -= activeScrollSpeed * CGFloat(fixedDelta)
             
             /* Get enemy node position, convert node position to scene space */
             let foodPosition = foodSpawner.convert(food.position, to: self)
